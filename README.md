@@ -1,5 +1,7 @@
 This is Turing machine project
 
+To start project You must install first on Your machnie [node.js](https://nodejs.org/)
+
 Download repo from GitHub:
 ```
 git clone <project_ssh>
