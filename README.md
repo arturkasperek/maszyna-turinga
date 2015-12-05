@@ -6,7 +6,9 @@ git clone <project_ssh>
 ```
  to start app write in console:
 ```
- npm install && gulp
+ npm install
+ npm install gulp -global
+ gulp
 ```
 Now You can open app on adress:
 ```
