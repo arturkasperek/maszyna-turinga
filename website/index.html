@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maszyna Turinga</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body ng-app="turingApp">
+    <div class="main-container" ng-controller="MainController as mainCtrl">
+        <label>Podaj dostepne znaki maszyny Turinga</label>
+        <input ng-model="chars">
+        <p>Dostepn znaki to: {{ chars }}</p>
+    </div>
+</body>
+<!-- Node modules scripts -->
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../node_modules/angular/angular.min.js"></script>
+<!--Own scripts -->
+<script src="js/Field.js"></script>
+<script src="js/turingMachine.js"></script>
+</html>

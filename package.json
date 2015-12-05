@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/arturkasperek/maszyna-turinga#readme",
   "devDependencies": {
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.0",
+    "gulp-webserver": "^0.9.1"
+  },
+  "dependencies": {
+    "angular": "^1.4.8",
+    "jquery": "^2.1.4"
   }
 }
