@@ -1,12 +1,12 @@
 <div>
-    <div ng-click="activeEditMode()" ng-if="!editMode">
+    <div ng-click="activeEditMode(1)" ng-if="!editMode">
         <span>{{ field.direction }} </span>
         <span>{{ field.char }} </span>
         <span>{{ field.newState }}</span>
     </div>
     <div ng-if="editMode">
-        <input ng-blur="turnoffEditMode()" ng-focus="activeEditMode()" ng-model="field.direction" focus-me="{{ focusDirectionField }}">
-        <input ng-blur="turnoffEditMode()" ng-focus="activeEditMode()" ng-model="field.char">
-        <input ng-blur="turnoffEditMode()" ng-focus="activeEditMode()" ng-model="field.newState">
+        <input ng-blur="turnoffEditMode()" ng-focus="activeEditMode(1)" ng-model="field.direction" focus-me="{{ focusDirectionField }}">
+        <input ng-blur="turnoffEditMode()" ng-focus="activeEditMode(2)" ng-model="field.char">
+        <input ng-blur="turnoffEditMode()" ng-focus="activeEditMode(3)" ng-model="field.newState">
     </div>
 </div>
