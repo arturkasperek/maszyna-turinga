@@ -1,42 +1,37 @@
-angular.module('turingApp')
-    .directive('field', function($timeout) {
-        return {
-            restrict: 'A',
-            templateUrl: 'field.html',
-            scope: {
-                field: '=fieldObject'
-            },
-            link: function($scope) {
-                var switchedToDiffrentField = undefined,
-                    lastActiveField = undefined;
+(function() {
+    angular.module('turingApp')
+        .directive('field', function($timeout) {
+            return {
+                restrict: 'A',
+                templateUrl: 'field.html',
+                scope: {
+                    field: '=fieldObject'
+                },
+                link: function($scope) {
+                    var lastActiveField = undefined;
 
-                $scope.focusDirectionField = false;
+                    $scope.focusDirectionField = false;
 
-                $scope.activeEditMode = function(fieldNumber) {
-                    if(switchedToDiffrentField == undefined || lastActiveField == fieldNumber) {
-                        switchedToDiffrentField = false;
-                    } else {
-                        switchedToDiffrentField = true;
-                    }
-
-                    $scope.editMode = true;
-                    $scope.focusDirectionField = true;
-                    lastActiveField = fieldNumber;
-                };
-
-                $scope.turnoffEditMode = function() {
-                    $timeout(function() {
-                        if(!switchedToDiffrentField) {
-                            $scope.editMode = false;
+                    $scope.activeEditMode = function(fieldName) {
+                        if(fieldName == 'direction') {
+                            $scope.showDirectionControl = true;
                         } else {
-                            switchedToDiffrentField = false;
+                            $scope.showDirectionControl = false;
                         }
-                    }, 1);
-                };
 
-                $scope.changeEditMode = function() {
-                    
-                };
+                        $scope.editMode = true;
+                        $scope.focusDirectionField = true;
+                        lastActiveField = fieldName;
+                    };
+
+                    $scope.turnoffEditMode = function() {
+                        $scope.editMode = false;
+                    };
+
+                    $scope.changeEditMode = function() {
+
+                    };
+                }
             }
-        }
-});
+    });
+})();

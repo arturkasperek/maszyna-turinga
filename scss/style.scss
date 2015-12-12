@@ -18,9 +18,15 @@ body {
                 padding: 1em;
                 height: 1.5em;
 
-                >div {
-                    >div {
+                .field {
+                    .view-mode, .edit-mode {
                         text-align: center;
+                        position: relative;
+
+                        .direction-control {
+                            position: absolute;
+                            bottom: 1.5em;
+                        }
 
                         input {
                             width: 15px;

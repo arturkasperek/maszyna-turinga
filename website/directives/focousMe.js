@@ -1,3 +1,4 @@
+(function() {
 angular.module('turingApp')
     .directive('focusMe', function($timeout) {
         return {
@@ -13,3 +14,4 @@ angular.module('turingApp')
             }
         };
 });
+})();
