@@ -8,23 +8,14 @@
 <body ng-app="turingApp">
     <div class="main-container" ng-controller="MainController as mainCtrl">
         <label>Podaj dostepne znaki maszyny Turinga</label>
-        <input ng-model="mainCtrl.availableChars">
-        <p>Dostepn znaki to: {{ mainCtrl.availableChars }}</p>
+        <input ng-model="mainCtrl.availableSymbols">
+        <p>Dostepn znaki to: {{ mainCtrl.availableSymbols }}</p>
         <button ng-click="initMachine()">Start!</button>
-        <table class="turing-matrix">
-            <tr>
-                <th></th>
-                <th ng-repeat="symbol in mainCtrl.symbols">{{ symbol }}</th>
-            </tr>
-            <tr ng-repeat="row in mainCtrl.stateMatrix">
-                <th>{{ row.stateName }}</th>
-                <td ng-repeat="field in row.fields" ng-click="startEditMode(field)">
-                    <input ng-if="field.showEditMode" ng-blur="editComplete(field)" value="{{ field.direction}} {{ field.char }} {{ field.newState }}">
-                    <span ng-if="!field.showEditMode">{{ field.direction}} {{ field.char }} {{ field.newState }}</span>
-                </td>
-            </tr>
-        </table>
-        <field direction="'L'" char="'X'" new-state="23" edit-mode="false"></field>
+        <div>
+            <table class="turing-matrix">
+                <state ng-repeat="state in mainCtrl.stateMatrix" fields="state.fields" state-name="state.stateName"></state>
+            </table>
+        </div>
     </div>
 </body>
 <!-- Node modules scripts -->
@@ -35,4 +26,5 @@
 <script src="js/turingMachine.js"></script>
 <script src="directives/focousMe.js"></script>
 <script src="directives/field.js"></script>
+<script src="directives/state.js"></script>
 </html>

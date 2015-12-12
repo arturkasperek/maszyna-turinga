@@ -1,12 +1,24 @@
 body {
     background-color: white;
     .turing-matrix {
+        margin: 0 auto;
+
         tr {
             td {
+                width: 5em;
                 padding: 1em;
+                height: 1.5em;
 
-                input {
-                    width: 50px;
+                field {
+                    >div {
+                        >div {
+                            text-align: center;
+
+                            input {
+                                width: 15px;
+                            }
+                        }
+                    }
                 }
             }
         }

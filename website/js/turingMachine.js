@@ -5,20 +5,20 @@
             var that = this,
                 stateNumber = 5;
 
-            this.availableChars = '';
+            this.availableSymbols = '';
             this.stateMatrix = [];
             this.symbols = [];
 
             function initMachine() {
-                if(that.availableChars.length <= 0) {
+                if(that.availableSymbols.length <= 0) {
                     throw new Error("Musisz podać znaki !!!");
                 } else {
                     that.stateMatrix = [];
                     that.symbols = [];
 
                     //generate table header
-                    for(var i = 0; i < that.availableChars.length; i++) {
-                        that.symbols.push(that.availableChars[i]);
+                    for(var i = 0; i < that.availableSymbols.length; i++) {
+                        that.symbols.push(that.availableSymbols[i]);
                     }
 
                     for(var i = 0; i < stateNumber; i++) {
@@ -27,8 +27,8 @@
                             stateName: stateNumber
                         };
 
-                        for(var j = 0; j < that.availableChars.length; j++) {
-                            var field = new Field('N', that.availableChars[j], stateNumber + 1);
+                        for(var j = 0; j < that.availableSymbols.length; j++) {
+                            var field = new Field('N', that.availableSymbols[j], stateNumber + 1);
 
                             field.showEditMode = false;
 
@@ -37,10 +37,7 @@
                         that.stateMatrix.push(state);
                     }
                 }
-                console.log(that.stateMatrix);
             }
-
-            //TODO http://stackoverflow.com/questions/14833326/how-to-set-focus-on-input-field
 
             $scope.initMachine = function() {
                 try {

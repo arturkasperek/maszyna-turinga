@@ -2,20 +2,16 @@ angular.module('turingApp')
     .directive('field', function($timeout) {
         return {
             restrict: 'E',
+            replace: true,
             templateUrl: 'field.html',
             scope: {
-                direction: '=direction',
-                char: '=char',
-                newState: '=newState',
-                editMode: '=editMode'
+                field: '=field'
             },
             link: function($scope) {
                 var switchedToDiffrentField = undefined,
                     lastActiveField = undefined;
 
                 $scope.focusDirectionField = false;
-
-                $scope.field = new Field($scope.direction, $scope.char, $scope.newState);
 
                 $scope.activeEditMode = function(fieldNumber) {
                     if(switchedToDiffrentField == undefined || lastActiveField == fieldNumber) {
@@ -31,13 +27,16 @@ angular.module('turingApp')
 
                 $scope.turnoffEditMode = function() {
                     $timeout(function() {
-                        console.log(switchedToDiffrentField);
                         if(!switchedToDiffrentField) {
                             $scope.editMode = false;
                         } else {
                             switchedToDiffrentField = false;
                         }
                     }, 1);
+                };
+
+                $scope.changeEditMode = function() {
+                    console.log("afds");
                 };
             }
         }
