@@ -1,0 +1,12 @@
+<div>
+    <table class="turing-matrix">
+        <tr>
+            <th></th>
+            <th ng-repeat="symbol in symbols">{{ symbol }}</th>
+        </tr>
+        <tr state ng-repeat="state in stateMatrix" fields="state.fields" state-name="state.stateName">
+            <th>{{ state.stateName }}</th>
+            <td field ng-repeat="field in state.fields" field-object="field"></td>
+        </tr>
+    </table>
+</div>

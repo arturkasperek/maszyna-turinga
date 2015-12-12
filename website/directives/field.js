@@ -1,11 +1,10 @@
 angular.module('turingApp')
     .directive('field', function($timeout) {
         return {
-            restrict: 'E',
-            replace: true,
+            restrict: 'A',
             templateUrl: 'field.html',
             scope: {
-                field: '=field'
+                field: '=fieldObject'
             },
             link: function($scope) {
                 var switchedToDiffrentField = undefined,
@@ -36,7 +35,7 @@ angular.module('turingApp')
                 };
 
                 $scope.changeEditMode = function() {
-                    console.log("afds");
+                    
                 };
             }
         }

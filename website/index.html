@@ -10,21 +10,24 @@
         <label>Podaj dostepne znaki maszyny Turinga</label>
         <input ng-model="mainCtrl.availableSymbols">
         <p>Dostepn znaki to: {{ mainCtrl.availableSymbols }}</p>
+        <div class="state-number-control">
+            <button>-</button><input ng-model="mainCtrl.stateNumber"><button>+</button>
+        </div>
         <button ng-click="initMachine()">Start!</button>
         <div>
-            <table class="turing-matrix">
-                <state ng-repeat="state in mainCtrl.stateMatrix" fields="state.fields" state-name="state.stateName"></state>
-            </table>
+            <state-matrix symbols="mainCtrl.turingMatrixObject.symbols" state-matrix="mainCtrl.turingMatrixObject.stateMatrix"></state-matrix>
         </div>
     </div>
 </body>
+
 <!-- Node modules scripts -->
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script src="../node_modules/angular/angular.min.js"></script>
 <!--Own scripts -->
 <script src="js/Field.js"></script>
-<script src="js/turingMachine.js"></script>
+<script src="js/MainController.js"></script>
 <script src="directives/focousMe.js"></script>
 <script src="directives/field.js"></script>
-<script src="directives/state.js"></script>
+<script src="directives/stateMatrix.js"></script>
+<script src="services/matrixService.js"></script>
 </html>
