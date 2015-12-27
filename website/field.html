@@ -6,12 +6,12 @@
     </div>
     <div clicked-outside="turnoffEditMode()" class="edit-mode" ng-if="editMode">
         <div ng-if="showDirectionControl" class="direction-control">
-            <button>←</button>
-            <button>→</button>
-            <button>⚪</button>
+            <button ng-click="setDirectionAndGoToNextField('L')">←</button>
+            <button ng-click="setDirectionAndGoToNextField('R')">→</button>
+            <button ng-click="setDirectionAndGoToNextField('N')">⚪</button>
         </div>
-        <input ng-focus="activeEditMode('direction')" ng-model="field.direction" focus-me="{{ focusDirectionField }}">
-        <input ng-focus="activeEditMode('symbol')" ng-model="field.char">
-        <input ng-focus="activeEditMode('state')" ng-model="field.newState">
+        <input ng-focus="activeEditMode('direction')" ng-model="field.direction" focus-me="{{ fieldsFocus.direction }}">
+        <input ng-focus="activeEditMode('symbol')" ng-model="field.char" focus-me="{{ fieldsFocus.symbol }}">
+        <input ng-focus="activeEditMode('state')" ng-model="field.newState" focus-me="{{ fieldsFocus.state }}">
     </div>
 </div>

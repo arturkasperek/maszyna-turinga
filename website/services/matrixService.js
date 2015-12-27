@@ -28,7 +28,7 @@
                         };
 
                         for(var j = 0; j < availableSymbols.length; j++) {
-                            var field = new Field('N', availableSymbols[j], i + 1);
+                            var field = new Field('', '', '');
 
                             field.showEditMode = false;
 

@@ -1,5 +1,19 @@
 body {
+    $light-grey: #BDBDBD;
+    $grey: #757575;
+
     background-color: white;
+
+    @mixin active {
+        background-color: $light-grey;
+        color: white;
+        cursor: pointer;
+        border-radius: 0.2em;
+
+        &:hover {
+            background-color: $grey;
+        }
+    }
 
     .state-number-control {
         input {
@@ -15,13 +29,14 @@ body {
         tr {
             td {
                 width: 5em;
-                padding: 1em;
                 height: 1.5em;
 
                 .field {
                     .view-mode, .edit-mode {
+                        border: 1px black dashed;
                         text-align: center;
                         position: relative;
+                        min-height: 1em;
 
                         .direction-control {
                             position: absolute;
@@ -31,6 +46,35 @@ body {
                         input {
                             width: 15px;
                         }
+
+                        &:empty {
+                            background-color: red;
+                        }
+                    }
+                    .edit-mode {
+                        border: none;
+                    }
+                }
+            }
+
+            .state-name {
+                padding-left: 1em;
+                padding-right: 1em;
+
+                &.active {
+                    @include active;
+                }
+            }
+
+            &:first-of-type {
+                div {
+                    width: 50%;
+                    margin: 0 auto;
+                }
+
+                &.active {
+                    div {
+                        @include active;
                     }
                 }
             }

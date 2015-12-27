@@ -4,7 +4,7 @@
         .controller('MainController',['$scope','matrixService', function($scope, matrixService) {
             var that = this;
 
-            this.availableSymbols = '';
+            this.availableSymbols = 'asdf';
             this.stateMatrix = [];
             this.symbols = [];
             this.stateNumber = 5;
