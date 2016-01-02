@@ -7,6 +7,10 @@
 </head>
 <body ng-app="turingApp">
     <div class="main-container" ng-controller="MainController as mainCtrl">
+        <div class="down-and-up-load-buttons-container">
+            <button class="download" ng-click="downloadTuringStateMatrix()">Download</button>
+            <input type="file" fileread="uploadedStateMatrixURL">
+        </div>
         <label>Podaj dostepne znaki maszyny Turinga</label>
         <input ng-model="mainCtrl.availableSymbols">
         <p>Dostepn znaki to: {{ mainCtrl.availableSymbols }}</p>
@@ -30,5 +34,6 @@
 <script src="directives/field.js"></script>
 <script src="directives/stateMatrix.js"></script>
 <script src="directives/clickedOutside.js"></script>
+<script src="directives/fileread.js"></script>
 <script src="services/matrixService.js"></script>
 </html>

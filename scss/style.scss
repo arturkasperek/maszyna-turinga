@@ -15,66 +15,79 @@ body {
         }
     }
 
-    .state-number-control {
-        input {
-            width: 50px;
-            text-align: center;
-            margin-bottom: 1em;
+    .main-container {
+        .down-and-up-load-buttons-container {
+            position: fixed;
+            right: 0;
         }
-    }
 
-    .turing-matrix {
-        margin: 0 auto;
+        .state-number-control {
+            input {
+                width: 50px;
+                text-align: center;
+                margin-bottom: 1em;
+            }
+        }
 
-        tr {
-            td {
-                width: 5em;
-                height: 1.5em;
+        .turing-matrix {
+            margin: 0 auto;
 
-                .field {
-                    .view-mode, .edit-mode {
-                        border: 1px black dashed;
-                        text-align: center;
-                        position: relative;
-                        min-height: 1em;
+            tr {
+                td {
+                    width: 5em;
+                    height: 1.5em;
 
-                        .direction-control {
-                            position: absolute;
-                            bottom: 1.5em;
+                    .field {
+                        .view-mode, .edit-mode {
+                            border: 1px black dashed;
+                            border-radius: 5px;
+                            text-align: center;
+                            position: relative;
+                            min-height: 1em;
+
+                            .direction-control {
+                                position: absolute;
+                                bottom: 1.5em;
+                            }
+
+                            input {
+                                width: 15px;
+                            }
+
+                            &:hover {
+                                background-color: $light-grey;
+                            }
+
                         }
+                        .edit-mode {
+                            border: none;
 
-                        input {
-                            width: 15px;
-                        }
-
-                        &:empty {
-                            background-color: red;
+                            &:hover {
+                                background-color: white;
+                            }
                         }
                     }
-                    .edit-mode {
-                        border: none;
-                    }
-                }
-            }
-
-            .state-name {
-                padding-left: 1em;
-                padding-right: 1em;
-
-                &.active {
-                    @include active;
-                }
-            }
-
-            &:first-of-type {
-                div {
-                    width: 50%;
-                    margin: 0 auto;
                 }
 
-                &.active {
-                    div {
+                .state-name {
+                    padding-left: 1em;
+                    padding-right: 1em;
+
+                    &.active {
                         @include active;
+                    }
+                }
+
+                &:first-of-type {
+                    div {
+                        width: 50%;
+                        margin: 0 auto;
+                    }
+
+                    &.active {
+                        div {
+                            @include active;
+                        }
                     }
                 }
             }
