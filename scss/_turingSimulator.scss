@@ -17,6 +17,8 @@
             font-size: 130%;
             position: absolute;
             left: 0;
+            transition: left linear 0.2s;
+
             .tape-field {
                 min-width: 1em;
                 text-align: center;
@@ -35,7 +37,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            transition: left linear 0.5s;
+            transition-property: left;
+            transition-duration: 0.5s;
+            transition-timing-function: linear;
 
             .upper-frame {
                 width: 90%;

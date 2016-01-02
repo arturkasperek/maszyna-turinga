@@ -1,4 +1,5 @@
 <div class="turing-simulator-container">
+    <button ng-click="startSimulation()">Start</button>
     <div class="turing-simulator-wrapper">
         <div class="tape">
             <div ng-repeat="field in tape track by $index" class="tape-field field-{{ $index }}" ng-class="field == '#' ? 'sharp-field': ''">

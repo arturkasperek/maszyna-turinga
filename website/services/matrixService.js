@@ -23,16 +23,17 @@
 
                     for(var i = 0; i < stateNumber; i++) {
                         var state = {
-                            fields: [],
+                            fields: {},
                             stateName: i + 1
                         };
 
                         for(var j = 0; j < availableSymbols.length; j++) {
-                            var field = new Field('', '', '');
+                            var field = new Field('', '', ''),
+                                currentSymbol = availableSymbols[j];
 
                             field.showEditMode = false;
 
-                            state.fields.push(field);
+                            state.fields[currentSymbol] = field;
                         }
                         stateMatrix.push(state);
                     }

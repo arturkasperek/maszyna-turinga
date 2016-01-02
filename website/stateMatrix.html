@@ -10,7 +10,7 @@
         </tr>
         <tr state ng-repeat="state in stateMatrix" fields="state.fields" state-name="state.stateName">
             <th class="{{ statePickingActive }} state-name" ng-click="statePicked(state.stateName)">{{ state.stateName }}</th>
-            <td field ng-repeat="field in state.fields" field-object="field"></td>
+            <td field ng-repeat="(key, field) in state.fields" field-object="field"></td>
         </tr>
     </table>
 </div>
