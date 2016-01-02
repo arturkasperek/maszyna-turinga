@@ -1,0 +1,115 @@
+.turing-simulator-container {
+    @import "variables";
+
+    width: 100%;
+    height: 100px;
+    margin: 1.5em 0;
+
+    .turing-simulator-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 0em 1em 8em 1em;
+        width: 90%;
+        margin: 0 auto;
+
+        .tape {
+            display: flex;
+            font-size: 130%;
+            position: absolute;
+            left: 0;
+            .tape-field {
+                min-width: 1em;
+                text-align: center;
+                padding: 0.5em;
+                border: 1px solid $grey;
+                background-color: $light-green;
+
+                &.sharp-field {
+                    background-color: $light-grey;
+                }
+            }
+        }
+
+        .simulator-head {
+            width: 45px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: left linear 0.5s;
+
+            .upper-frame {
+                width: 90%;
+                height: 50px;
+                border: 2px solid black;
+            }
+
+            .down-elem-1 {
+                width: 20%;
+                height: 5px;
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+                margin: 0 auto;
+            }
+
+            .down-elem-2 {
+                width: 30%;
+                height: 10px;
+                border: 1px solid black;
+                margin: 0 auto;
+            }
+
+            .down-elem-3 {
+                width: 20%;
+                height: 2px;
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+                margin: 0 auto;
+            }
+
+            .down-elem-4 {
+                width: 40%;
+                height: 5px;
+                border: 1px solid black;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                border-bottom: none;
+                margin: 0 auto;
+            }
+
+            .down-elem-5 {
+                width: 90%;
+                height: 30px;
+                border: 1px solid black;
+                border-radius: 5px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span {
+                    display: block;
+                }
+            }
+
+            .down-elem-6 {
+                width: 40%;
+                height: 5px;
+                border: 1px solid black;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                border-top: none;
+                margin: 0 auto;
+            }
+
+            .down-elem-7 {
+                width: 20%;
+                height: 7px;
+                border: 1px solid black;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                border-top: none;
+                margin: 0 auto;
+            }
+        }
+    }
+}

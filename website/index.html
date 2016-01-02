@@ -21,6 +21,11 @@
         <div>
             <state-matrix symbols="mainCtrl.turingMatrixObject.symbols" state-matrix="mainCtrl.turingMatrixObject.stateMatrix"></state-matrix>
         </div>
+        <div>
+            <label>Wejściowa tablica znaków:</label>
+            <input ng-model="userInputTable"></input>
+        </div>
+        <turing-simulator state-matrix="mainCtrl.turingMatrixObject.stateMatrix" user-input-table="userInputTable"></turing-simulator>
     </div>
 </body>
 
@@ -33,6 +38,7 @@
 <script src="directives/focousMe.js"></script>
 <script src="directives/field.js"></script>
 <script src="directives/stateMatrix.js"></script>
+<script src="directives/turingSimulator.js"></script>
 <script src="directives/clickedOutside.js"></script>
 <script src="directives/fileread.js"></script>
 <script src="services/matrixService.js"></script>

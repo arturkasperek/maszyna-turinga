@@ -1,0 +1,21 @@
+<div class="turing-simulator-container">
+    <div class="turing-simulator-wrapper">
+        <div class="tape">
+            <div ng-repeat="field in tape track by $index" class="tape-field field-{{ $index }}" ng-class="field == '#' ? 'sharp-field': ''">
+                <div>
+                    {{ field }}
+                </div>
+            </div>
+        </div>
+        <div class="simulator-head">
+            <div class="upper-frame"></div>
+            <div class="down-elem-1"></div>
+            <div class="down-elem-2"></div>
+            <div class="down-elem-3"></div>
+            <div class="down-elem-4"></div>
+            <div class="down-elem-5"><span>Head</span></div>
+            <div class="down-elem-6"></div>
+            <div class="down-elem-7"></div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 body {
-    $light-grey: #BDBDBD;
-    $grey: #757575;
+    @import "turingSimulator";
+    @import "variables";
 
     background-color: white;
 
@@ -14,6 +14,9 @@ body {
             background-color: $grey;
         }
     }
+
+    padding: 0;
+    margin: 0;
 
     .main-container {
         .down-and-up-load-buttons-container {
