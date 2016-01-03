@@ -5,6 +5,11 @@
     height: 100px;
     margin: 1.5em 0;
 
+    .simulator-speed {
+        width: 30px;
+        text-align: center;
+    }
+
     .turing-simulator-wrapper {
         position: relative;
         overflow: hidden;
@@ -17,7 +22,9 @@
             font-size: 130%;
             position: absolute;
             left: 0;
-            transition: left linear 0.2s;
+            transition-property: left;
+            transition-duration: 1s;
+            transition-timing-function: linear;
 
             .tape-field {
                 min-width: 1em;
@@ -28,6 +35,10 @@
 
                 &.sharp-field {
                     background-color: $light-grey;
+                }
+
+                &.break-point {
+                    background-color: $light-red;
                 }
             }
         }

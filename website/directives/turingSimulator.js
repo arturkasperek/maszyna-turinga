@@ -1,6 +1,6 @@
 (function() {
     angular.module('turingApp')
-        .directive('turingSimulator', ['$timeout', function($timeout) {
+        .directive('turingSimulator', ['$timeout', '$q', function($timeout, $q) {
             return {
                 restrict: 'E',
                 replace: true,
@@ -31,6 +31,22 @@
                         $upperFrameOfHead.css('height', fieldHeight);
                     }
 
+                    $scope.getHeadSimulationDuration = function() {
+                        return parseFloat($simulatorHead.css('transition-duration').split('s')[0]);
+                    };
+
+                    $scope.setHeadSimulationDuration = function(newDurationInSec) {
+                        $simulatorHead.css('transition-duration', newDurationInSec.toString() + 's');
+                    };
+
+                    $scope.setTapeAdjustingAnimationDuration = function(newDurationInSec) {
+                        $tape.css('transition-duration', newDurationInSec.toString() + 's');
+                    };
+
+                    $scope.getTapeAdjustingAnimationDuration = function() {
+                        return parseFloat($tape.css('transition-duration').split('s')[0]);
+                    };
+
                     $scope.setFieldOnLeftSide = function(fieldNumber) {
                         var $field = $tape.find('.field-' + fieldNumber),
                             fieldLeftPosition = $field.position().left,
@@ -41,9 +57,10 @@
                             oldSimulatorHeadLeftOffset = $simulatorHead.position().left,
                             newTapeLeftOffset = - fieldLeftPosition,
                             translationOffset = newTapeLeftOffset - oldTapeLeftOffset,
-                            simulatorHeadTransitionDuration = parseFloat($simulatorHead.css('transition-duration').split('s')[0]);
+                            simulatorHeadTransitionDurationInSec = $scope.getHeadSimulationDuration(),
+                            tapeAdjusingAnimationDurationInSec = $scope.getTapeAdjustingAnimationDuration();
 
-                        $simulatorHead.css('transition-duration', '0.2s');
+                        $scope.setHeadSimulationDuration(tapeAdjusingAnimationDurationInSec);
                         $simulatorHead.css('left', oldSimulatorHeadLeftOffset + translationOffset);
                         $tape.css('left', newTapeLeftOffset);
                         $scope.newTapeLeftOffset = newTapeLeftOffset;
@@ -51,8 +68,8 @@
                         $scope.lastVisibleFieldIndex = fieldNumber + visibleFieldsCount;
 
                         $timeout(function() {
-                            $simulatorHead.css('transition-duration', simulatorHeadTransitionDuration.toString() + 's');
-                        }, 200);
+                            $scope.setHeadSimulationDuration(simulatorHeadTransitionDurationInSec);
+                        }, tapeAdjusingAnimationDurationInSec * 1000);
                     };
 
                     $scope.setHeadOnField = function(fieldNumber) {
@@ -71,9 +88,14 @@
                 controller: function($scope) {
                     var that = this,
                         hashNeighborsCount = 35,
+                        headStopDurationInSec = 0.2,
                         firstNotHashFieldIndex = hashNeighborsCount,
                         currentHeadPosition = firstNotHashFieldIndex,
-                        adjustAmount = 3;
+                        adjustAmount = 3,
+                        simulation = undefined;
+
+                    $scope.isSimulationPlay = false;
+                    $scope.breakPointTable = [];
 
                     $scope.setFieldValue = function(fieldNumber, newValue) {
                         $scope.$evalAsync(function() {
@@ -98,22 +120,56 @@
                     });
 
                     function adjustTapePosition() {
+                        var deferred = $q.defer(),
+                            tapeAnimationDuration = $scope.getTapeAdjustingAnimationDuration(),
+                            middleOfVisibleFields = parseInt(($scope.lastVisibleFieldIndex - $scope.firstVisibleFieldIndex) / 4);
+
                         if(currentHeadPosition - $scope.firstVisibleFieldIndex <= adjustAmount) {
-                            $scope.setFieldOnLeftSide($scope.firstVisibleFieldIndex - adjustAmount);
+                            $scope.setFieldOnLeftSide($scope.firstVisibleFieldIndex - middleOfVisibleFields);
+
+                            $timeout(function() {
+                                deferred.resolve(true);
+                            }, tapeAnimationDuration * 1000);
                         } else if($scope.lastVisibleFieldIndex - currentHeadPosition <= adjustAmount) {
-                            $scope.setFieldOnLeftSide($scope.firstVisibleFieldIndex + adjustAmount);
+                            $scope.setFieldOnLeftSide($scope.firstVisibleFieldIndex + middleOfVisibleFields);
+
+                            $timeout(function() {
+                                deferred.resolve(true);
+                            }, tapeAnimationDuration * 1000);
+                        } else {
+                            deferred.resolve(false);
                         }
+
+                        return deferred.promise;
                     }
 
-                    $scope.startSimulation = function() {
-                        var currentState = $scope.stateMatrix[0],
-                            currentSymbol = $scope.tape[currentHeadPosition],
-                            currentField = currentState.fields[currentSymbol];
+                    $scope.stopSimulation = function() {
+                        $scope.isSimulationPlay = false;
+                    };
 
+                    $scope.changeBreakPointOnField = function(fieldIndex) {
+                        var breakPoint = $scope.breakPointTable[fieldIndex];
+
+                        if(!breakPoint || breakPoint == '') {
+                            $scope.breakPointTable[fieldIndex] = 'break-point';
+                        } else {
+                            $scope.breakPointTable[fieldIndex] = '';
+                        }
+                    };
+
+                    $scope.startSimulation = function() {
                         function changeCurrentFieldAndGoToNext() {
-                            var newSymbol = currentField.char,
-                                direction = currentField.direction,
-                                newState = currentField.newState - 1;
+                            var newSymbol = simulation.currentField.char,
+                                direction = simulation.currentField.direction,
+                                newState = simulation.currentField.newState - 1,
+                                simulatorHeadTransitionDurationInSec = $scope.getHeadSimulationDuration();
+
+                            if($scope.breakPointTable[currentHeadPosition] == 'break-point') {
+                                $scope.stopSimulation();
+                                $scope.breakPointTable[currentHeadPosition] = '';
+
+                                return;
+                            }
 
                             $scope.setFieldValue(currentHeadPosition, newSymbol);
 
@@ -125,24 +181,61 @@
 
                             $scope.setHeadOnField(currentHeadPosition);
 
-                            currentState = $scope.stateMatrix[newState];
-                            currentSymbol = $scope.tape[currentHeadPosition];
-                            currentField = currentState.fields[currentSymbol];
+                            simulation.currentState = $scope.stateMatrix[newState];
+                            simulation.currentSymbol = $scope.tape[currentHeadPosition];
+                            simulation.currentField = simulation.currentState.fields[simulation.currentSymbol];
 
                             $timeout(function() {
-                                changeCurrentFieldAndGoToNext();
-                            }, 700);
-                            $timeout(function() {
-                                adjustTapePosition();
-                            }, 500);
+                                adjustTapePosition().then(function(adjusted) {
+                                    if($scope.isSimulationPlay) {
+                                        if(adjusted == false) {
+                                            $timeout(function() {
+                                                changeCurrentFieldAndGoToNext();
+                                            }, headStopDurationInSec * 1000);
+                                        } else {
+                                            changeCurrentFieldAndGoToNext();
+                                        }
+                                    }
+                                });
+                            }, simulatorHeadTransitionDurationInSec * 1000);
                         }
 
+                        if(!simulation) {
+                            var currentState = $scope.stateMatrix[0],
+                                currentSymbol = $scope.tape[currentHeadPosition];
+
+                            simulation = {
+                                currentState: currentState,
+                                currentSymbol: currentSymbol,
+                                currentField: currentState.fields[currentSymbol]
+                            }
+                        }
+
+                        $scope.isSimulationPlay = true;
                         changeCurrentFieldAndGoToNext();
                     };
 
+                    $scope.setSimulationSpeed = function(valueToIncremmentSpeed) {
+                        var speed = parseFloat($scope.simulationSpead);
+
+                        if(valueToIncremmentSpeed) {
+                            speed += valueToIncremmentSpeed;
+                            $scope.simulationSpead = speed;
+                        }
+
+                        if(!isNaN(speed) && speed >= 0) {
+                            $scope.setHeadSimulationDuration(speed);
+                            $scope.setTapeAdjustingAnimationDuration(speed * 1.5);
+                            headStopDurationInSec = speed / 2;
+                        }
+                    };
+
                     $timeout(function() {
+                        $scope.simulationSpead = $scope.getHeadSimulationDuration();
+
                         $scope.setFieldOnLeftSide(currentHeadPosition - 4);
                         $scope.setHeadOnField(currentHeadPosition);
+                        console.log($scope.simulationSpead);
                     }, 1);
                 }
             }

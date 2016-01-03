@@ -3,6 +3,7 @@ body {
     @import "variables";
 
     background-color: white;
+    font-family: 'Ubuntu Mono';
 
     @mixin active {
         background-color: $light-grey;

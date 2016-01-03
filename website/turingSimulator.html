@@ -1,8 +1,14 @@
 <div class="turing-simulator-container">
-    <button ng-click="startSimulation()">Start</button>
+    <div class="simulator-settings">
+        <button ng-click="setSimulationSpeed(-0.1)">-</button><input class="simulator-speed" ng-model="simulationSpead" ng-change="setSimulationSpeed()"><button ng-click="setSimulationSpeed(0.1)">+</button>
+    </div>
+    <button ng-click="isSimulationPlay ? stopSimulation() : startSimulation()">
+        <span ng-if="isSimulationPlay">Stop</span>
+        <span ng-if="!isSimulationPlay">Play</span>
+    </button>
     <div class="turing-simulator-wrapper">
         <div class="tape">
-            <div ng-repeat="field in tape track by $index" class="tape-field field-{{ $index }}" ng-class="field == '#' ? 'sharp-field': ''">
+            <div ng-repeat="field in tape track by $index" ng-click="changeBreakPointOnField($index)" class="tape-field field-{{ $index }} {{ breakPointTable[$index] }}" ng-class="field == '#' ? 'sharp-field': ''">
                 <div>
                     {{ field }}
                 </div>

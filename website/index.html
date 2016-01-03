@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Maszyna Turinga</title>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body ng-app="turingApp">
@@ -13,7 +14,6 @@
         </div>
         <label>Podaj dostepne znaki maszyny Turinga</label>
         <input ng-model="mainCtrl.availableSymbols">
-        <p>Dostepn znaki to: {{ mainCtrl.availableSymbols }}</p>
         <div class="state-number-control">
             <button>-</button><input ng-model="mainCtrl.stateNumber"><button>+</button>
         </div>
