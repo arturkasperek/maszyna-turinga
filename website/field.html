@@ -1,5 +1,5 @@
 <div class="field" ng-click="changeEditMode()">
-    <div class="view-mode" ng-click="activeEditMode('direction')" ng-if="!editMode">
+    <div class="view-mode" ng-click="activeEditMode('direction')" ng-class="{'highlighted': highlightField}" ng-if="!editMode">
         <span>{{ field.direction }} </span>
         <span>{{ field.char }} </span>
         <span>{{ field.newState }}</span>

@@ -2,13 +2,13 @@
     <table class="turing-matrix">
         <tr class="{{ symbolPickingActive }}">
             <th></th>
-            <th ng-repeat="symbol in symbols" ng-click="symbolPicked(symbol)">
+            <th ng-repeat="symbol in turingStateObject.symbols" ng-click="symbolPicked(symbol)">
                 <div>
                     {{ symbol }}
                 </div>
             </th>
         </tr>
-        <tr state ng-repeat="state in stateMatrix" fields="state.fields" state-name="state.stateName">
+        <tr state ng-repeat="state in turingStateObject.stateMatrix" fields="state.fields" state-name="state.stateName">
             <th class="{{ statePickingActive }} state-name" ng-click="statePicked(state.stateName)">{{ state.stateName }}</th>
             <td field ng-repeat="(key, field) in state.fields" field-object="field"></td>
         </tr>

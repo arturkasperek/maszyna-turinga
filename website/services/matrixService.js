@@ -4,15 +4,38 @@
         .service('matrixService', function() {
             var that = this,
                 stateMatrix = [],
-                symbols = [];
+                symbols = [],
+                stateNumber,
+                lastAddedStateName;
 
             this.initMachine = initMachine;
             this.getTuringMatrixObject = getTuringMatrixObject;
+            this.deleteSymbol = deleteSymbol;
+            this.deleteLastAddedState = deleteLastAddedState;
+            this.addSymbol = addSymbol;
+            this.addState = addState;
 
-            function initMachine(stateNumber, availableSymbols) {
+            function createState(stateName, symbols) {
+                var state = {
+                    fields: {},
+                    stateName: stateName
+                };
+
+                for(var j = 0; j < symbols.length; j++) {
+                    var field = new Field('', '', ''),
+                        currentSymbol = symbols[j];
+
+                    state.fields[currentSymbol] = field;
+                }
+
+                return state;
+            }
+
+            function initMachine(newStateNumber, availableSymbols) {
                 if(availableSymbols.length <= 0) {
                     throw new Error("Musisz podać znaki !!!");
                 } else {
+                    stateNumber = newStateNumber;
                     stateMatrix = [];
                     symbols = [];
 
@@ -22,25 +45,46 @@
                     }
 
                     for(var i = 0; i < stateNumber; i++) {
-                        var state = {
-                            fields: {},
-                            stateName: i + 1
-                        };
+                        var newState = createState(i + 1, availableSymbols);
 
-                        for(var j = 0; j < availableSymbols.length; j++) {
-                            var field = new Field('', '', ''),
-                                currentSymbol = availableSymbols[j];
-
-                            field.showEditMode = false;
-
-                            state.fields[currentSymbol] = field;
-                        }
-                        stateMatrix.push(state);
+                        stateMatrix.push(newState);
+                        lastAddedStateName = newState.stateName;
                     }
                 }
             }
 
+            function deleteSymbol(symbol) {
+                stateMatrix.forEach(function(state) {
+                    delete state.fields[symbol];
+                });
+
+                symbols.splice(symbols.indexOf(symbol), 1);
+            }
+
+            function deleteLastAddedState() {
+                stateMatrix.splice(stateNumber -1, 1);
+                stateNumber--;
+            }
+
+            function addState(stateName) {
+                stateName = stateName || stateNumber + 1;
+                var newState = createState(stateName, symbols);
+
+                stateMatrix.push(newState);
+                lastAddedStateName = newState.stateName;
+                stateNumber++;
+            }
+
+            function addSymbol(symbol) {
+                stateMatrix.forEach(function(state) {
+                    state.fields[symbol] = new Field('', '', '');
+                });
+
+                symbols.push(symbol);
+            }
+
             function getTuringMatrixObject() {
+
                 return {
                     stateMatrix: stateMatrix,
                     symbols: symbols

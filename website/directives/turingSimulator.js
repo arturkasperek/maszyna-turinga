@@ -1,6 +1,6 @@
 (function() {
     angular.module('turingApp')
-        .directive('turingSimulator', ['$timeout', '$q', function($timeout, $q) {
+        .directive('turingSimulator', ['$timeout', '$q', '$rootScope', function($timeout, $q, $rootScope) {
             return {
                 restrict: 'E',
                 replace: true,
@@ -164,6 +164,11 @@
                                 newState = simulation.currentField.newState - 1,
                                 simulatorHeadTransitionDurationInSec = $scope.getHeadSimulationDuration();
 
+                            if(simulation.prevField) {
+                                $rootScope.$broadcast('endHighlightField', simulation.prevField);
+                            }
+                            $rootScope.$broadcast('highlightField', simulation.currentField);
+
                             if($scope.breakPointTable[currentHeadPosition] == 'break-point') {
                                 $scope.stopSimulation();
                                 $scope.breakPointTable[currentHeadPosition] = '';
@@ -181,6 +186,7 @@
 
                             $scope.setHeadOnField(currentHeadPosition);
 
+                            simulation.prevField = simulation.currentField;
                             simulation.currentState = $scope.stateMatrix[newState];
                             simulation.currentSymbol = $scope.tape[currentHeadPosition];
                             simulation.currentField = simulation.currentState.fields[simulation.currentSymbol];
@@ -220,6 +226,7 @@
 
                         if(valueToIncremmentSpeed) {
                             speed += valueToIncremmentSpeed;
+                            speed = speed.toFixed(2);
                             $scope.simulationSpead = speed;
                         }
 

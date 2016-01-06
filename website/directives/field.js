@@ -1,6 +1,6 @@
 (function() {
     angular.module('turingApp')
-        .directive('field', function($timeout) {
+        .directive('field', ['$rootScope', '$timeout', function($rootScope, $timeout) {
             return {
                 restrict: 'A',
                 templateUrl: 'field.html',
@@ -81,6 +81,18 @@
 
                     };
 
+                    $rootScope.$on('highlightField', function(event, field) {
+                        if(field == $scope.field) {
+                            $scope.highlightField = true;
+                        }
+                    });
+
+                    $rootScope.$on('endHighlightField', function(event, field) {
+                        if(field == $scope.field) {
+                            $scope.highlightField = false;
+                        }
+                    });
+
                     $scope.$on('symbolPicked', function(e, symbol) {
                         if($scope.editMode == true) {
                             $scope.field.char = symbol;
@@ -102,5 +114,5 @@
                     });
                 }
             }
-    });
+    }]);
 })();

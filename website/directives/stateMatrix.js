@@ -6,8 +6,7 @@
                 replace: true,
                 templateUrl: 'stateMatrix.html',
                 scope: {
-                    stateMatrix: '=',
-                    symbols: '='
+                    turingStateObject: '='
                 },
                 link: function($scope) {
                     var that = this;

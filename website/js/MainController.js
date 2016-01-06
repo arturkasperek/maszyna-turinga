@@ -4,15 +4,15 @@
         .controller('MainController',['$scope','matrixService', '$http', function($scope, matrixService, $http) {
             var that = this;
 
-            this.availableSymbols = 'asdf';
+            $scope.symbolsInput = '#ab';
+
+            this.availableSymbols = $scope.symbolsInput;
             this.stateMatrix = [];
-            this.symbols = [];
-            this.stateNumber = 5;
+            this.stateNumber = $scope.symbolsInput.length;
 
             function initMachine() {
                 matrixService.initMachine(that.stateNumber, that.availableSymbols);
                 that.turingMatrixObject = matrixService.getTuringMatrixObject();
-                console.log(that.turingMatrixObject);
             }
 
             function downloadFile(filename, text) {
@@ -34,8 +34,67 @@
                 }
             };
 
-            $scope.working = function() {
-                console.log("Working");
+            $scope.addNewState = function(stateName) {
+                matrixService.addState(stateName);
+                that.stateNumber ++;
+            };
+
+            $scope.deleteLastAddedState = function() {
+                if(that.stateNumber >= 0) {
+                    matrixService.deleteLastAddedState();
+                    that.stateNumber --;
+                }
+            };
+
+            $scope.updateStateMatrix = function(symbolsInput) {
+                var differences;
+
+                function findAddedEndDeletedSymbols(oldSymbols, newSymbols) {
+                    var oldSymbols = oldSymbols.split(""),
+                        newSymbols = newSymbols.split(""),
+                        symbolChangeObj = {
+                            added: [],
+                            deleted: []
+                        };
+
+                    function arrayToObj(array) {
+                        var objToRet = {};
+
+                        array.forEach(function(elem) {
+                             objToRet[elem] = true;
+                        });
+
+                        return objToRet;
+                    }
+
+                    function checkForDifferencesInObjects(firstObj, secondObj, differencesList) {
+                        for(var key in firstObj) {
+                            if(secondObj[key] == undefined) {
+                                differencesList.push(key);
+                            }
+                        }
+                    }
+
+                    oldSymbols = arrayToObj(oldSymbols);
+                    newSymbols = arrayToObj(newSymbols);
+
+                    checkForDifferencesInObjects(newSymbols, oldSymbols, symbolChangeObj.added);
+                    checkForDifferencesInObjects(oldSymbols, newSymbols, symbolChangeObj.deleted);
+
+                    return symbolChangeObj;
+                }
+
+                differences = findAddedEndDeletedSymbols(that.availableSymbols, symbolsInput);
+
+                differences.deleted.forEach(function(deletedSymbol) {
+                    matrixService.deleteSymbol(deletedSymbol);
+                });
+
+                differences.added.forEach(function(addedSymbol) {
+                    matrixService.addSymbol(addedSymbol);
+                });
+
+                that.availableSymbols = symbolsInput;
             };
 
             $scope.downloadTuringStateMatrix = function() {
@@ -50,5 +109,7 @@
                     });
                 }
             });
+
+            $scope.initMachine();
         }]);
 })();

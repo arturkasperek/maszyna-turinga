@@ -13,17 +13,16 @@
             <input type="file" fileread="uploadedStateMatrixURL">
         </div>
         <label>Podaj dostepne znaki maszyny Turinga</label>
-        <input ng-model="mainCtrl.availableSymbols">
+        <input ng-model="symbolsInput" ng-change="updateStateMatrix(symbolsInput)">
         <div class="state-number-control">
-            <button>-</button><input ng-model="mainCtrl.stateNumber"><button>+</button>
+            <button ng-click="deleteLastAddedState()">-</button><input ng-model="mainCtrl.stateNumber"><button ng-click="addNewState(mainCtrl.stateNumber + 1)">+</button>
         </div>
-        <button ng-click="initMachine()">Start!</button>
         <div>
-            <state-matrix symbols="mainCtrl.turingMatrixObject.symbols" state-matrix="mainCtrl.turingMatrixObject.stateMatrix"></state-matrix>
+            <state-matrix turing-state-object="mainCtrl.turingMatrixObject"></state-matrix>
         </div>
         <div>
             <label>Wejściowa tablica znaków:</label>
-            <input ng-model="userInputTable"></input>
+            <input ng-model="userInputTable">
         </div>
         <turing-simulator state-matrix="mainCtrl.turingMatrixObject.stateMatrix" user-input-table="userInputTable"></turing-simulator>
     </div>

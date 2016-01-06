@@ -62,6 +62,10 @@ body {
                                 background-color: $light-grey;
                             }
 
+                            &.highlighted {
+                                background-color: $light-grey;
+                            }
+
                         }
                         .edit-mode {
                             border: none;
