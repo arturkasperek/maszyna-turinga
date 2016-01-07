@@ -56,6 +56,16 @@
                         fieldFocus('symbol');
                     };
 
+                    $scope.validateDirection = function(userDirection) {
+                        if(userDirection == 'L' || userDirection == 'l') {
+                            $scope.setDirectionAndGoToNextField('L');
+                        } else if(userDirection == 'P' || userDirection == 'p') {
+                            $scope.setDirectionAndGoToNextField('P');
+                        } else {
+                            $scope.field.direction = '';
+                        }
+                    };
+
                     $scope.turnoffEditMode = function() {
                         function offEditMode() {
                             $scope.$emit('symbolPickingDeactive');

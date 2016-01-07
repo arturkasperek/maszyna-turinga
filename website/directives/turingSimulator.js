@@ -6,7 +6,6 @@
                 replace: true,
                 templateUrl: 'turingSimulator.html',
                 scope: {
-                    userInputTable: '=',
                     stateMatrix: '='
                 },
                 link: function($scope, $element) {
@@ -104,19 +103,19 @@
                     };
 
                     $scope.$watch('userInputTable', function(newVal) {
-                        function genereateHashOnTapeEnd(hashNumber) {
+                        function generateHashOnTapeEnd(hashNumber) {
                             for(var i = 0; i < hashNumber; i++) {
                                 $scope.tape.push('#');
                             }
                         }
                         $scope.tape = [];
-                        genereateHashOnTapeEnd(hashNeighborsCount);
+                        generateHashOnTapeEnd(hashNeighborsCount);
                         if(newVal) {
                             for(var i = 0; i < newVal.length; i++) {
                                 $scope.tape.push(newVal[i]);
                             }
                         }
-                        genereateHashOnTapeEnd(hashNeighborsCount);
+                        generateHashOnTapeEnd(hashNeighborsCount);
                     });
 
                     function adjustTapePosition() {
@@ -226,8 +225,12 @@
 
                         if(valueToIncremmentSpeed) {
                             speed += valueToIncremmentSpeed;
-                            speed = speed.toFixed(2);
+                            speed = speed.toFixed(1);
                             $scope.simulationSpead = speed;
+                        }
+
+                        if(speed < 0) {
+                            $scope.simulationSpead = 0.0;
                         }
 
                         if(!isNaN(speed) && speed >= 0) {

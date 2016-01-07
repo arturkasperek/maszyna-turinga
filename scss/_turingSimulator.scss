@@ -1,19 +1,41 @@
 .turing-simulator-container {
     @import "variables";
+    @import "icons";
 
     width: 100%;
-    height: 100px;
-    margin: 1.5em 0;
+    margin: 1.5em 0 3em 0;
+    box-shadow: 0 4px 10px -2px $grey;
+    padding-bottom: 1em;
 
-    .simulator-speed {
-        width: 30px;
-        text-align: center;
+    .top-panel {
+        display: flex;
+        align-items: center;
+        margin: 1em 0em 2em 3em;
+
+        .simulation-action-button {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+
+            @include icon('play');
+            @include icon('stop');
+        }
+
+        .simulator-settings {
+            margin-left: 2em;
+
+            .simulator-speed {
+                width: 30px;
+                text-align: center;
+            }
+        }
     }
 
     .turing-simulator-wrapper {
         position: relative;
         overflow: hidden;
-        padding: 0em 1em 8em 1em;
+        padding: 0em 1em 9em 1em;
         width: 90%;
         margin: 0 auto;
 
@@ -32,6 +54,7 @@
                 padding: 0.5em;
                 border: 1px solid $grey;
                 background-color: $light-green;
+                cursor: pointer;
 
                 &.sharp-field {
                     background-color: $light-grey;
@@ -125,6 +148,27 @@
                 border-top: none;
                 margin: 0 auto;
             }
+        }
+    }
+
+    .in-panel {
+        @include icon('in');
+
+        display: flex;
+        align-items: center;
+        margin-left: 1em;
+
+        span, label {
+            margin-right: 0.3em;
+        }
+
+        label {
+            font-size: 120%;
+            font-weight: bold;
+        }
+
+        input {
+
         }
     }
 }

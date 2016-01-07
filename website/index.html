@@ -9,22 +9,43 @@
 <body ng-app="turingApp">
     <div class="main-container" ng-controller="MainController as mainCtrl">
         <div class="down-and-up-load-buttons-container">
-            <button class="download" ng-click="downloadTuringStateMatrix()">Download</button>
-            <input type="file" fileread="uploadedStateMatrixURL">
+            <button class="download" ng-click="downloadTuringStateMatrix()">
+                <span class="icon-download"></span>
+            </button>
+            <input ng-if="false" type="file" fileread="uploadedStateMatrixURL">
         </div>
-        <label>Podaj dostepne znaki maszyny Turinga</label>
-        <input ng-model="symbolsInput" ng-change="updateStateMatrix(symbolsInput)">
-        <div class="state-number-control">
-            <button ng-click="deleteLastAddedState()">-</button><input ng-model="mainCtrl.stateNumber"><button ng-click="addNewState(mainCtrl.stateNumber + 1)">+</button>
+        <turing-simulator state-matrix="mainCtrl.turingMatrixObject.stateMatrix"></turing-simulator>
+        <div ng-if="showStateCreator" class="matrix-creator-container">
+            <div class="symbol-input-container">
+                <span class="icon-symbols"></span>
+                <label>Symbole: </label>
+                <input ng-model="symbolsInput" ng-change="updateStateMatrix(symbolsInput)">
+            </div>
+            <div class="state-number-control">
+                <button ng-click="deleteLastAddedState()">-</button><input ng-model="mainCtrl.stateNumber"><button ng-click="addNewState(mainCtrl.stateNumber + 1)">+</button>
+            </div>
+            <div>
+                <state-matrix turing-state-object="mainCtrl.turingMatrixObject"></state-matrix>
+            </div>
         </div>
-        <div>
-            <state-matrix turing-state-object="mainCtrl.turingMatrixObject"></state-matrix>
+        <div class="project-source-choice-container">
+            <div ng-click="showStateCreator = true" class="new-project">
+                <span class="icon-new-project"></span>
+                <span>Nowy projekt</span>
+            </div>
+            <div class="upload">
+                <span class="icon-upload"></span>
+                <span>Wczytaj projekt z dysku</span>
+            </div>
+            <div class="recent">
+                <span class="icon-recent"></span>
+                <span>Wczytaj projekt zapisany w cache przeglądraki</span>
+            </div>
+            <div class="samples">
+                <span class="icon-samples"></span>
+                <span>Przykłady</span>
+            </div>
         </div>
-        <div>
-            <label>Wejściowa tablica znaków:</label>
-            <input ng-model="userInputTable">
-        </div>
-        <turing-simulator state-matrix="mainCtrl.turingMatrixObject.stateMatrix" user-input-table="userInputTable"></turing-simulator>
     </div>
 </body>
 

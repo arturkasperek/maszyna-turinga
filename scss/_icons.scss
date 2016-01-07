@@ -1,0 +1,14 @@
+$icon-size: 40px;
+
+[class*="icon-"] {
+    display: inline-block;
+    width: $icon-size;
+    height: $icon-size;
+}
+
+@mixin icon($icon-name) {
+    .icon-#{$icon-name} {
+        background-image: url('../icons/#{$icon-name}.png');
+        background-size: $icon-size $icon-size;
+    }
+}

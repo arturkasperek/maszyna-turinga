@@ -1,11 +1,13 @@
 <div class="turing-simulator-container">
-    <div class="simulator-settings">
-        <button ng-click="setSimulationSpeed(-0.1)">-</button><input class="simulator-speed" ng-model="simulationSpead" ng-change="setSimulationSpeed()"><button ng-click="setSimulationSpeed(0.1)">+</button>
+    <div class="top-panel">
+        <button class="simulation-action-button" ng-click="isSimulationPlay ? stopSimulation() : startSimulation()">
+            <span ng-if="!isSimulationPlay" class="icon-play"></span>
+            <span ng-if="isSimulationPlay" class="icon-stop"></span>
+        </button>
+        <div class="simulator-settings">
+            <button ng-click="setSimulationSpeed(-0.1)">-</button><input class="simulator-speed" ng-model="simulationSpead" ng-change="setSimulationSpeed()"><button ng-click="setSimulationSpeed(0.1)">+</button>
+        </div>
     </div>
-    <button ng-click="isSimulationPlay ? stopSimulation() : startSimulation()">
-        <span ng-if="isSimulationPlay">Stop</span>
-        <span ng-if="!isSimulationPlay">Play</span>
-    </button>
     <div class="turing-simulator-wrapper">
         <div class="tape">
             <div ng-repeat="field in tape track by $index" ng-click="changeBreakPointOnField($index)" class="tape-field field-{{ $index }} {{ breakPointTable[$index] }}" ng-class="field == '#' ? 'sharp-field': ''">
@@ -24,5 +26,10 @@
             <div class="down-elem-6"></div>
             <div class="down-elem-7"></div>
         </div>
+    </div>
+    <div class="in-panel">
+        <span class="icon-in"></span>
+        <label>In: </label>
+        <input ng-model="userInputTable" ng-change="generateTap(userInputTable)">
     </div>
 </div>

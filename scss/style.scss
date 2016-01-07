@@ -1,6 +1,7 @@
 body {
     @import "turingSimulator";
     @import "variables";
+    @import "icons";
 
     background-color: white;
     font-family: 'Ubuntu Mono';
@@ -19,85 +20,180 @@ body {
     padding: 0;
     margin: 0;
 
+    input, button {
+        font-family: 'Ubuntu Mono';
+    }
+
+    input {
+        font-size: 110%;
+        padding: 0.2em;
+        outline: none;
+        border-color: $grey;
+    }
+
     .main-container {
         .down-and-up-load-buttons-container {
             position: fixed;
             right: 0;
-        }
+            top: 0;
 
-        .state-number-control {
-            input {
-                width: 50px;
-                text-align: center;
-                margin-bottom: 1em;
+            .download {
+                background-color: transparent;
+                border: none;
+                outline: none;
+                cursor: pointer;
+
+                @include icon('download');
             }
         }
 
-        .turing-matrix {
-            margin: 0 auto;
+        .matrix-creator-container {
+            margin-left: 1em;
 
-            tr {
-                td {
-                    width: 5em;
-                    height: 1.5em;
+            .symbol-input-container {
+                @include icon('symbols');
 
-                    .field {
-                        .view-mode, .edit-mode {
-                            border: 1px black dashed;
-                            border-radius: 5px;
-                            text-align: center;
-                            position: relative;
-                            min-height: 1em;
+                margin-bottom: 1em;
+                display: flex;
+                align-items: center;
 
-                            .direction-control {
-                                position: absolute;
-                                bottom: 1.5em;
-                            }
-
-                            input {
-                                width: 15px;
-                            }
-
-                            &:hover {
-                                background-color: $light-grey;
-                            }
-
-                            &.highlighted {
-                                background-color: $light-grey;
-                            }
-
-                        }
-                        .edit-mode {
-                            border: none;
-
-                            &:hover {
-                                background-color: white;
-                            }
-                        }
-                    }
+                label {
+                    margin-left: 0.3em;
+                    margin-right: 0.3em;
+                    font-weight: bold;
+                    font-size: 110%;
                 }
+            }
 
-                .state-name {
-                    padding-left: 1em;
-                    padding-right: 1em;
-
-                    &.active {
-                        @include active;
-                    }
+            .state-number-control {
+                input {
+                    width: 50px;
+                    text-align: center;
+                    margin-bottom: 1em;
                 }
+            }
 
-                &:first-of-type {
-                    div {
-                        width: 50%;
-                        margin: 0 auto;
+            .turing-matrix {
+                margin: 0 auto;
+
+                tr {
+                    td {
+                        width: 5em;
+                        height: 1.5em;
+
+                        .field {
+                            .view-mode, .edit-mode {
+                                border: 1px black dashed;
+                                border-radius: 5px;
+                                text-align: center;
+                                position: relative;
+                                min-height: 1em;
+
+                                .direction-control {
+                                    position: absolute;
+                                    bottom: 1.5em;
+
+                                    button {
+                                        background-color: $light-grey;
+                                        border: none;
+                                        cursor: pointer;
+                                        border-radius: 0.4em;
+
+                                        &:hover {
+                                            background-color: $grey;
+                                        }
+                                    }
+                                }
+
+                                input {
+                                    padding: 0;
+                                    width: 15px;
+                                }
+
+                                &:hover {
+                                    background-color: $light-grey;
+                                }
+
+                                &.highlighted {
+                                    background-color: $light-grey;
+                                }
+
+                            }
+                            .edit-mode {
+                                border: none;
+
+                                &:hover {
+                                    background-color: white;
+                                }
+                            }
+                        }
                     }
 
-                    &.active {
-                        div {
+                    .state-name {
+                        padding-left: 1em;
+                        padding-right: 1em;
+
+                        &.active {
                             @include active;
                         }
                     }
+
+                    &:first-of-type {
+                        div {
+                            width: 50%;
+                            margin: 0 auto;
+                        }
+
+                        &.active {
+                            div {
+                                @include active;
+                            }
+                        }
+                    }
                 }
+            }
+        }
+
+        .project-source-choice-container {
+            $tile-width: 200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            > div {
+                margin: 0 2em;
+                padding: 1.5em;
+                border: 1px solid black;
+                text-align: center;
+                width: $tile-width;
+                position: relative;
+                cursor: pointer;
+
+                span {
+                    display: block;
+                    margin: 0 auto;
+
+                    &:last-of-type {
+                        margin-top: 1em;
+                        width: 80%;
+                    }
+                }
+            }
+
+            .new-project {
+                @include icon('new-project');
+            }
+
+            .upload {
+                @include icon('upload');
+            }
+
+            .recent {
+                @include icon('recent');
+            }
+
+            .samples {
+                @include icon('samples');
             }
         }
     }
