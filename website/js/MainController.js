@@ -1,7 +1,7 @@
 (function() {
     "use strict";
     angular.module('turingApp', [])
-        .controller('MainController',['$scope','matrixService', '$http', function($scope, matrixService, $http) {
+        .controller('MainController',['$scope','matrixService', '$http', '$timeout', function($scope, matrixService, $http, $timeout) {
             var that = this;
 
             $scope.symbolsInput = '#ab';
@@ -12,7 +12,7 @@
 
             function initMachine() {
                 matrixService.initMachine(that.stateNumber, that.availableSymbols);
-                that.turingMatrixObject = matrixService.getTuringMatrixObject();
+                $scope.turingMatrixObject = matrixService.getTuringMatrixObject();
             }
 
             function downloadFile(filename, text) {
@@ -25,6 +25,24 @@
                 element.click();
                 document.body.removeChild(element);
             }
+
+            $scope.startNewProject = function() {
+                $scope.showStateCreator = true;
+                $scope.adjustProjectLoadContainer();
+            };
+
+            $scope.uploadProject = function() {
+                angular.element('.project-upload-input').click();
+            };
+
+            $scope.adjustProjectLoadContainer = function() {
+                $timeout(function() {
+                    var projectLoadContainer = angular.element('.project-source-choice-container'),
+                        stateCreator = angular.element('.matrix-creator-container');
+
+                    stateCreator.prepend(projectLoadContainer);
+                }, 1);
+            };
 
             $scope.initMachine = function() {
                 try {
@@ -86,6 +104,8 @@
 
                 differences = findAddedEndDeletedSymbols(that.availableSymbols, symbolsInput);
 
+                console.log(differences);
+
                 differences.deleted.forEach(function(deletedSymbol) {
                     matrixService.deleteSymbol(deletedSymbol);
                 });
@@ -98,14 +118,22 @@
             };
 
             $scope.downloadTuringStateMatrix = function() {
-                downloadFile('turing-state-matrix.JSON', JSON.stringify(that.turingMatrixObject));
+                downloadFile('turing-state-matrix.JSON', angular.toJson($scope.turingMatrixObject));
             };
 
             $scope.$watch('uploadedStateMatrixURL', function(url) {
                 if(url) {
                     $http.get(url).then(function(response) {
                         var stateMatrixObject = response.data;
-                        that.turingMatrixObject = stateMatrixObject;
+
+                        //TODO create constructor for creating new turing machine object
+
+                        $scope.symbolsInput = stateMatrixObject.symbols.join('');
+                        that.availableSymbols = stateMatrixObject.symbols.join('');
+                        that.stateNumber = stateMatrixObject.stateMatrix.length;
+                        $scope.turingMatrixObject = stateMatrixObject;
+                        matrixService.initMachineFromObject(stateMatrixObject.stateMatrix, stateMatrixObject.symbols);
+                        $scope.startNewProject();
                     });
                 }
             });

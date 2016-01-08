@@ -49,6 +49,25 @@ body {
 
         .matrix-creator-container {
             margin-left: 1em;
+            position: relative;
+
+            .project-source-choice-container {
+                position: absolute;
+                right: 0;
+                transform: scale(0.8);
+
+                >div {
+                    width: auto;
+                    padding: 1em;
+                    margin: 0 1em;
+
+                    span {
+                        &:last-of-type {
+                            display: none;
+                        }
+                    }
+                }
+            }
 
             .symbol-input-container {
                 @include icon('symbols');

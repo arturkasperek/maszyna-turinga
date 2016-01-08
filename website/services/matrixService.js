@@ -9,6 +9,7 @@
                 lastAddedStateName;
 
             this.initMachine = initMachine;
+            this.initMachineFromObject = initMachineFromObject;
             this.getTuringMatrixObject = getTuringMatrixObject;
             this.deleteSymbol = deleteSymbol;
             this.deleteLastAddedState = deleteLastAddedState;
@@ -29,6 +30,11 @@
                 }
 
                 return state;
+            }
+
+            function initMachineFromObject(newStateMatrix, newSymbols) {
+                stateMatrix = newStateMatrix;
+                symbols = newSymbols;
             }
 
             function initMachine(newStateNumber, availableSymbols) {

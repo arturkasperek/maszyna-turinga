@@ -12,9 +12,9 @@
             <button class="download" ng-click="downloadTuringStateMatrix()">
                 <span class="icon-download"></span>
             </button>
-            <input ng-if="false" type="file" fileread="uploadedStateMatrixURL">
+            <input class="project-upload-input" ng-show="false" type="file" fileread="uploadedStateMatrixURL">
         </div>
-        <turing-simulator state-matrix="mainCtrl.turingMatrixObject.stateMatrix"></turing-simulator>
+        <turing-simulator state-matrix="turingMatrixObject.stateMatrix"></turing-simulator>
         <div ng-if="showStateCreator" class="matrix-creator-container">
             <div class="symbol-input-container">
                 <span class="icon-symbols"></span>
@@ -25,23 +25,23 @@
                 <button ng-click="deleteLastAddedState()">-</button><input ng-model="mainCtrl.stateNumber"><button ng-click="addNewState(mainCtrl.stateNumber + 1)">+</button>
             </div>
             <div>
-                <state-matrix turing-state-object="mainCtrl.turingMatrixObject"></state-matrix>
+                <state-matrix turing-state-object="turingMatrixObject"></state-matrix>
             </div>
         </div>
         <div class="project-source-choice-container">
-            <div ng-click="showStateCreator = true" class="new-project">
+            <div ng-click="startNewProject()" class="new-project">
                 <span class="icon-new-project"></span>
                 <span>Nowy projekt</span>
             </div>
-            <div class="upload">
+            <div ng-click="uploadProject()" class="upload">
                 <span class="icon-upload"></span>
                 <span>Wczytaj projekt z dysku</span>
             </div>
-            <div class="recent">
+            <div ng-click="showRecent()" class="recent">
                 <span class="icon-recent"></span>
                 <span>Wczytaj projekt zapisany w cache przeglądraki</span>
             </div>
-            <div class="samples">
+            <div ng-click="showSamples()" class="samples">
                 <span class="icon-samples"></span>
                 <span>Przykłady</span>
             </div>
