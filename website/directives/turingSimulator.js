@@ -245,7 +245,6 @@
 
                         $scope.setFieldOnLeftSide(currentHeadPosition - 4);
                         $scope.setHeadOnField(currentHeadPosition);
-                        console.log($scope.simulationSpead);
                     }, 1);
                 }
             }

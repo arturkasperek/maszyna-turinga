@@ -37,182 +37,217 @@ body {
             right: 0;
             top: 0;
 
-            .download {
+            .download, .save {
                 background-color: transparent;
                 border: none;
                 outline: none;
                 cursor: pointer;
 
                 @include icon('download');
+                @include icon('save');
             }
         }
 
-        .matrix-creator-container {
-            margin-left: 1em;
+        .bottom-panel {
             position: relative;
 
-            .project-source-choice-container {
-                position: absolute;
-                right: 0;
-                transform: scale(0.8);
+            .matrix-creator-container {
+                margin-left: 1em;
+                position: relative;
 
-                >div {
-                    width: auto;
-                    padding: 1em;
-                    margin: 0 1em;
+                .project-source-choice-container {
 
-                    span {
-                        &:last-of-type {
-                            display: none;
-                        }
+                }
+
+                .symbol-input-container {
+                    @include icon('symbols');
+
+                    margin-bottom: 1em;
+                    display: flex;
+                    align-items: center;
+
+                    label {
+                        margin-left: 0.3em;
+                        margin-right: 0.3em;
+                        font-weight: bold;
+                        font-size: 110%;
                     }
                 }
-            }
 
-            .symbol-input-container {
-                @include icon('symbols');
-
-                margin-bottom: 1em;
-                display: flex;
-                align-items: center;
-
-                label {
-                    margin-left: 0.3em;
-                    margin-right: 0.3em;
-                    font-weight: bold;
-                    font-size: 110%;
+                .state-number-control {
+                    input {
+                        width: 50px;
+                        text-align: center;
+                        margin-bottom: 1em;
+                    }
                 }
-            }
 
-            .state-number-control {
-                input {
-                    width: 50px;
-                    text-align: center;
-                    margin-bottom: 1em;
-                }
-            }
+                .turing-matrix {
+                    margin: 0 auto;
 
-            .turing-matrix {
-                margin: 0 auto;
+                    tr {
+                        td {
+                            width: 5em;
+                            height: 1.5em;
 
-                tr {
-                    td {
-                        width: 5em;
-                        height: 1.5em;
+                            .field {
+                                .view-mode, .edit-mode {
+                                    border: 1px black dashed;
+                                    border-radius: 5px;
+                                    text-align: center;
+                                    position: relative;
+                                    min-height: 1em;
 
-                        .field {
-                            .view-mode, .edit-mode {
-                                border: 1px black dashed;
-                                border-radius: 5px;
-                                text-align: center;
-                                position: relative;
-                                min-height: 1em;
+                                    .direction-control {
+                                        position: absolute;
+                                        bottom: 1.5em;
 
-                                .direction-control {
-                                    position: absolute;
-                                    bottom: 1.5em;
+                                        button {
+                                            background-color: $light-grey;
+                                            border: none;
+                                            cursor: pointer;
+                                            border-radius: 0.4em;
 
-                                    button {
-                                        background-color: $light-grey;
-                                        border: none;
-                                        cursor: pointer;
-                                        border-radius: 0.4em;
-
-                                        &:hover {
-                                            background-color: $grey;
+                                            &:hover {
+                                                background-color: $grey;
+                                            }
                                         }
                                     }
-                                }
 
-                                input {
-                                    padding: 0;
-                                    width: 15px;
-                                }
+                                    input {
+                                        padding: 0;
+                                        width: 15px;
+                                    }
 
-                                &:hover {
-                                    background-color: $light-grey;
-                                }
+                                    &:hover {
+                                        background-color: $light-grey;
+                                    }
 
-                                &.highlighted {
-                                    background-color: $light-grey;
-                                }
+                                    &.highlighted {
+                                        background-color: $light-grey;
+                                    }
 
+                                }
+                                .edit-mode {
+                                    border: none;
+
+                                    &:hover {
+                                        background-color: white;
+                                    }
+                                }
                             }
-                            .edit-mode {
-                                border: none;
-
-                                &:hover {
-                                    background-color: white;
-                                }
-                            }
-                        }
-                    }
-
-                    .state-name {
-                        padding-left: 1em;
-                        padding-right: 1em;
-
-                        &.active {
-                            @include active;
-                        }
-                    }
-
-                    &:first-of-type {
-                        div {
-                            width: 50%;
-                            margin: 0 auto;
                         }
 
-                        &.active {
-                            div {
+                        .state-name {
+                            padding-left: 1em;
+                            padding-right: 1em;
+
+                            &.active {
                                 @include active;
                             }
                         }
-                    }
-                }
-            }
-        }
 
-        .project-source-choice-container {
-            $tile-width: 200px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+                        &:first-of-type {
+                            div {
+                                width: 50%;
+                                margin: 0 auto;
+                            }
 
-            > div {
-                margin: 0 2em;
-                padding: 1.5em;
-                border: 1px solid black;
-                text-align: center;
-                width: $tile-width;
-                position: relative;
-                cursor: pointer;
-
-                span {
-                    display: block;
-                    margin: 0 auto;
-
-                    &:last-of-type {
-                        margin-top: 1em;
-                        width: 80%;
+                            &.active {
+                                div {
+                                    @include active;
+                                }
+                            }
+                        }
                     }
                 }
             }
 
-            .new-project {
-                @include icon('new-project');
+            .project-source-choice-container {
+                $tile-width: 200px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+
+                > div {
+                    margin: 0 2em;
+                    padding: 1.5em;
+                    border: 1px solid black;
+                    text-align: center;
+                    width: $tile-width;
+                    position: relative;
+                    cursor: pointer;
+
+                    span {
+                        display: block;
+                        margin: 0 auto;
+
+                        &:last-of-type {
+                            margin-top: 1em;
+                            width: 80%;
+                        }
+                    }
+                }
+
+                .new-project {
+                    @include icon('new-project');
+                }
+
+                .upload {
+                    @include icon('upload');
+                }
+
+                .recent {
+                    @include icon('recent');
+                }
+
+                .samples {
+                    @include icon('samples');
+                }
+
+                &.mini {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    transform: scale(0.8);
+
+                    > div {
+                        width: auto;
+                        padding: 1em;
+                        margin: 0 1em;
+
+                        span {
+                            &:last-of-type {
+                                display: none;
+                            }
+                        }
+                    }
+                }
             }
 
-            .upload {
-                @include icon('upload');
-            }
+            .projects-saved-in-cache {
+                display: flex;
+                padding-top: 6em;
 
-            .recent {
-                @include icon('recent');
-            }
+                >div {
+                    width: 20%;
+                    padding: 1em;
+                    margin: 1em;
+                    border: 1px solid black;
+                    cursor: pointer;
 
-            .samples {
-                @include icon('samples');
+                    @include icon('project-from-cache');
+
+                    span {
+                        display: block;
+                        margin: 0 auto;
+                        text-align: center;
+                    }
+
+                    &:first-of-type {
+
+                    }
+                }
             }
         }
     }

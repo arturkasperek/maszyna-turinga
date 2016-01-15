@@ -9,41 +9,52 @@
 <body ng-app="turingApp">
     <div class="main-container" ng-controller="MainController as mainCtrl">
         <div class="down-and-up-load-buttons-container">
+            <button class="save" ng-click="saveTuringStateMatrixInCache()">
+                <span class="icon-save"></span>
+            </button>
             <button class="download" ng-click="downloadTuringStateMatrix()">
                 <span class="icon-download"></span>
             </button>
             <input class="project-upload-input" ng-show="false" type="file" fileread="uploadedStateMatrixURL">
         </div>
         <turing-simulator state-matrix="turingMatrixObject.stateMatrix"></turing-simulator>
-        <div ng-if="showStateCreator" class="matrix-creator-container">
-            <div class="symbol-input-container">
-                <span class="icon-symbols"></span>
-                <label>Symbole: </label>
-                <input ng-model="symbolsInput" ng-change="updateStateMatrix(symbolsInput)">
+        <div class="bottom-panel">
+            <div ng-if="showStateCreator" class="matrix-creator-container">
+                <div class="symbol-input-container">
+                    <span class="icon-symbols"></span>
+                    <label>Symbole: </label>
+                    <input ng-model="symbolsInput" ng-change="updateStateMatrix(symbolsInput)">
+                </div>
+                <div class="state-number-control">
+                    <button ng-click="deleteLastAddedState()">-</button><input ng-model="mainCtrl.stateNumber"><button ng-click="addNewState(mainCtrl.stateNumber + 1)">+</button>
+                </div>
+                <div>
+                    <state-matrix ng-hide="hideMatrix" turing-state-object="turingMatrixObject"></state-matrix>
+                </div>
             </div>
-            <div class="state-number-control">
-                <button ng-click="deleteLastAddedState()">-</button><input ng-model="mainCtrl.stateNumber"><button ng-click="addNewState(mainCtrl.stateNumber + 1)">+</button>
+            <div class="project-source-choice-container">
+                <div ng-click="startNewProject()" class="new-project">
+                    <span class="icon-new-project"></span>
+                    <span>Nowy projekt</span>
+                </div>
+                <div ng-click="uploadProject()" class="upload">
+                    <span class="icon-upload"></span>
+                    <span>Wczytaj projekt z dysku</span>
+                </div>
+                <div ng-click="showRecent()" class="recent">
+                    <span class="icon-recent"></span>
+                    <span>Wczytaj projekt zapisany w cache przeglądraki</span>
+                </div>
+                <div ng-click="showSamples()" class="samples">
+                    <span class="icon-samples"></span>
+                    <span>Przykłady</span>
+                </div>
             </div>
-            <div>
-                <state-matrix turing-state-object="turingMatrixObject"></state-matrix>
-            </div>
-        </div>
-        <div class="project-source-choice-container">
-            <div ng-click="startNewProject()" class="new-project">
-                <span class="icon-new-project"></span>
-                <span>Nowy projekt</span>
-            </div>
-            <div ng-click="uploadProject()" class="upload">
-                <span class="icon-upload"></span>
-                <span>Wczytaj projekt z dysku</span>
-            </div>
-            <div ng-click="showRecent()" class="recent">
-                <span class="icon-recent"></span>
-                <span>Wczytaj projekt zapisany w cache przeglądraki</span>
-            </div>
-            <div ng-click="showSamples()" class="samples">
-                <span class="icon-samples"></span>
-                <span>Przykłady</span>
+            <div class="projects-saved-in-cache" ng-if="showProjectsSavedInCache">
+                <div ng-repeat="savedStateMatrix in savedStateMatrixes" ng-click="startProjectFromCache(savedStateMatrix)">
+                    <span class="icon-project-from-cache"></span>
+                    <span>{{ savedStateMatrix.lastModified }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -52,6 +63,8 @@
 <!-- Node modules scripts -->
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script src="../node_modules/angular/angular.min.js"></script>
+<script src="../node_modules/moment/min/moment.min.js"></script>
+<script src="../node_modules/moment/locale/pl.js"></script>
 <!--Own scripts -->
 <script src="js/Field.js"></script>
 <script src="js/MainController.js"></script>

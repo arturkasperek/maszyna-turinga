@@ -2,13 +2,15 @@
     "use strict";
     angular.module('turingApp', [])
         .controller('MainController',['$scope','matrixService', '$http', '$timeout', function($scope, matrixService, $http, $timeout) {
-            var that = this;
+            var that = this,
+                currentProjectCacheSaveSlotIndex = undefined;
 
             $scope.symbolsInput = '#ab';
 
             this.availableSymbols = $scope.symbolsInput;
-            this.stateMatrix = [];
             this.stateNumber = $scope.symbolsInput.length;
+
+
 
             function initMachine() {
                 matrixService.initMachine(that.stateNumber, that.availableSymbols);
@@ -26,6 +28,50 @@
                 document.body.removeChild(element);
             }
 
+            function findFreeSlotIndexInCacheForStateMatrix() {
+                var i = 1,
+                    stateMatrixFromCache = true;
+
+                while(stateMatrixFromCache != null) {
+                    stateMatrixFromCache = localStorage.getItem('state-matrix-' + i.toString());
+                    i++;
+                }
+                i--;
+
+                return i;
+            }
+
+            function loadFromCacheSavedMatrixes(stateMatrixes) {
+                var i = 1,
+                    stateMatrixFromCache = true;
+
+                while(stateMatrixFromCache != null) {
+                    stateMatrixFromCache = localStorage.getItem('state-matrix-' + i.toString());
+                    if(stateMatrixFromCache != null) {
+                        stateMatrixes.push(angular.fromJson(stateMatrixFromCache));
+                    }
+                    i++;
+                }
+            }
+
+            function adjustStateMatrix(stateMatrix) {
+                //if state matrix didnt have any symbols or state we must hide matrix editor( to dont display only state names or symbols )
+                if(stateMatrix.stateMatrix == 0 || stateMatrix.symbols ==0) {
+                    $scope.hideMatrix = true;
+                } else {
+                    $scope.hideMatrix = false;
+                }
+            }
+
+            function loadProgramFromStateMatrixObject(stateMatrixObject) {
+                $scope.symbolsInput = stateMatrixObject.symbols.join('');
+                that.availableSymbols = stateMatrixObject.symbols.join('');
+                that.stateNumber = stateMatrixObject.stateMatrix.length;
+                $scope.turingMatrixObject = stateMatrixObject;
+                matrixService.initMachineFromObject(stateMatrixObject.stateMatrix, stateMatrixObject.symbols);
+                $scope.startNewProject();
+            }
+
             $scope.startNewProject = function() {
                 $scope.showStateCreator = true;
                 $scope.adjustProjectLoadContainer();
@@ -35,12 +81,24 @@
                 angular.element('.project-upload-input').click();
             };
 
+            $scope.showRecent = function() {
+                $scope.savedStateMatrixes = [];
+                loadFromCacheSavedMatrixes($scope.savedStateMatrixes);
+                $scope.showProjectsSavedInCache = true;
+                $scope.showStateCreator = false;
+                $scope.adjustProjectLoadContainer();
+            };
+
+            $scope.startProjectFromCache = function(stateMatrixObject) {
+                loadProgramFromStateMatrixObject(stateMatrixObject);
+                $scope.showProjectsSavedInCache = false;
+            };
+
             $scope.adjustProjectLoadContainer = function() {
                 $timeout(function() {
-                    var projectLoadContainer = angular.element('.project-source-choice-container'),
-                        stateCreator = angular.element('.matrix-creator-container');
+                    var projectLoadContainer = angular.element('.project-source-choice-container');
 
-                    stateCreator.prepend(projectLoadContainer);
+                    projectLoadContainer.addClass('mini');
                 }, 1);
             };
 
@@ -55,6 +113,8 @@
             $scope.addNewState = function(stateName) {
                 matrixService.addState(stateName);
                 that.stateNumber ++;
+
+                adjustStateMatrix($scope.turingMatrixObject);
             };
 
             $scope.deleteLastAddedState = function() {
@@ -62,6 +122,8 @@
                     matrixService.deleteLastAddedState();
                     that.stateNumber --;
                 }
+
+                adjustStateMatrix($scope.turingMatrixObject);
             };
 
             $scope.updateStateMatrix = function(symbolsInput) {
@@ -104,8 +166,6 @@
 
                 differences = findAddedEndDeletedSymbols(that.availableSymbols, symbolsInput);
 
-                console.log(differences);
-
                 differences.deleted.forEach(function(deletedSymbol) {
                     matrixService.deleteSymbol(deletedSymbol);
                 });
@@ -115,25 +175,37 @@
                 });
 
                 that.availableSymbols = symbolsInput;
+
+                adjustStateMatrix($scope.turingMatrixObject);
             };
 
             $scope.downloadTuringStateMatrix = function() {
                 downloadFile('turing-state-matrix.JSON', angular.toJson($scope.turingMatrixObject));
             };
 
+            $scope.saveTuringStateMatrixInCache = function() {
+                function addCurrentDateToMatrixObject() {
+                    $scope.turingMatrixObject.lastModified = moment().format('MMMM YYYY HH:mm');
+                }
+
+                if(!currentProjectCacheSaveSlotIndex) {
+                    currentProjectCacheSaveSlotIndex = findFreeSlotIndexInCacheForStateMatrix();
+                }
+
+                addCurrentDateToMatrixObject();
+
+                localStorage.setItem("state-matrix-" + currentProjectCacheSaveSlotIndex.toString(), angular.toJson($scope.turingMatrixObject));
+
+            };
+
+            $scope.loadProgramFromStateMatrixObject = loadProgramFromStateMatrixObject;
+
+            /* Init code */
+
             $scope.$watch('uploadedStateMatrixURL', function(url) {
                 if(url) {
                     $http.get(url).then(function(response) {
-                        var stateMatrixObject = response.data;
-
-                        //TODO create constructor for creating new turing machine object
-
-                        $scope.symbolsInput = stateMatrixObject.symbols.join('');
-                        that.availableSymbols = stateMatrixObject.symbols.join('');
-                        that.stateNumber = stateMatrixObject.stateMatrix.length;
-                        $scope.turingMatrixObject = stateMatrixObject;
-                        matrixService.initMachineFromObject(stateMatrixObject.stateMatrix, stateMatrixObject.symbols);
-                        $scope.startNewProject();
+                        loadProgramFromStateMatrixObject(response.data);
                     });
                 }
             });
